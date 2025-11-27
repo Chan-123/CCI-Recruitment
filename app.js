@@ -1,26 +1,46 @@
+// 1) Put your Google Apps Script Web App URL here
+//    Example: const scriptURL = 'https://script.google.com/macros/s/AKfycbx.../exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzDFqJQd3R0-tub2gDLxlkOfxYEntlJkpNOvZQmj9zOU-Gj6GwAWbuQb3eZmp1javPA/exec';
+
+// 2) Candidate Registration – send data to Google Sheet
 document.getElementById('registration-form').addEventListener('submit', function (e) {
   e.preventDefault();
-  // Get registration form data
-  const data = {
-    name: e.target.name.value,
-    dob: e.target.dob.value,
-    gender: e.target.gender.value,
-    designation: e.target.designation.value,
-    pfnumber: e.target.pfnumber.value,
-    station: e.target.station.value,
-    paylevel: e.target.paylevel.value,
-    email: e.target.email.value,
-    mobile: e.target.mobile.value
-  };
-  console.log('Register data:', data);
-  alert('Registration submitted! Backend integration coming next.');
-  e.target.reset();
+
+  const formData = new FormData();
+  formData.append('name', document.getElementById('name').value);
+  formData.append('dob', document.getElementById('dob').value);
+  formData.append('gender', document.getElementById('gender').value);
+  formData.append('designation', document.getElementById('designation').value);
+  formData.append('pfnumber', document.getElementById('pfnumber').value);
+  formData.append('station', document.getElementById('station').value);
+  formData.append('paylevel', document.getElementById('paylevel').value);
+  formData.append('email', document.getElementById('email').value);
+  formData.append('mobile', document.getElementById('mobile').value);
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === 'success') {
+        alert('Registration saved successfully!');
+        e.target.reset();
+      } else {
+        alert('Error while saving registration. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error while submitting registration:', error);
+      alert('Network or server error. Please try again later.');
+    });
 });
 
+// 3) Candidate Login – placeholder for future implementation
 document.getElementById('login-form').addEventListener('submit', function (e) {
   e.preventDefault();
   const userid = e.target.userid.value;
   const password = e.target.password.value;
   console.log('Login attempt:', userid, password);
-  alert('Login functionality coming next.');
+  alert('Login functionality will be implemented after registration storage.');
 });
