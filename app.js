@@ -24,7 +24,12 @@ document.getElementById('registration-form').addEventListener('submit', function
     .then(response => response.json())
     .then(result => {
       if (result.status === 'success') {
-        alert('Registration saved successfully!');
+        alert(
+      'Registration saved successfully!\n\n' +
+      'Your User ID: ' + result.userId + '\n' +
+      'Password: ' + result.password + '\n' +
+      'Please note these credentials for login.'
+    );
         e.target.reset();
       } else {
         alert('Error while saving registration. Please try again.');
