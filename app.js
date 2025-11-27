@@ -55,8 +55,11 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     .then(res => res.json())
     .then(result => {
       if (result.status === 'success') {
-        alert('Login successful! (Next step: show application form/dashboard)');
-        // later you will show the application form here
+        window.loggedInUserId = userid;
+        alert('Login successful!');
+
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('application-section').style.display = 'block';
       } else {
         alert(result.message || 'Invalid User ID or Password');
       }
