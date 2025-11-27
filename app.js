@@ -44,8 +44,24 @@ document.getElementById('registration-form').addEventListener('submit', function
 // 3) Candidate Login – placeholder for future implementation
 document.getElementById('login-form').addEventListener('submit', function (e) {
   e.preventDefault();
-  const userid = e.target.userid.value;
-  const password = e.target.password.value;
-  console.log('Login attempt:', userid, password);
-  alert('Login functionality will be implemented after registration storage.');
+  const userid = document.getElementById('userid').value;
+  const password = document.getElementById('password').value;
+
+  const url = scriptURL + '?action=login&userid=' + encodeURIComponent(userid) +
+              '&password=' + encodeURIComponent(password);
+
+  fetch(url, { method: 'GET' })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        alert('Login successful! (Next step: show application form/dashboard)');
+        // here you can later redirect or show another section
+      } else {
+        alert(result.message || 'Invalid User ID or Password');
+      }
+    })
+    .catch(err => {
+      console.error('Login error:', err);
+      alert('Network/server error during login.');
+    });
 });
