@@ -1,35 +1,36 @@
 // 1) Put your Google Apps Script Web App URL here
-//    Example: const scriptURL = 'https://script.google.com/macros/s/AKfycbx.../exec';
 const scriptURL = 'https://script.google.com/macros/s/AKfycbzDFqJQd3R0-tub2gDLxlkOfxYEntlJkpNOvZQmj9zOU-Gj6GwAWbuQb3eZmp1javPA/exec';
 
-// 2) Candidate Registration – send data to Google Sheet
+// 2) Candidate Registration – send data to Google Sheet via action=register
 document.getElementById('registration-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const formData = new FormData();
-  formData.append('name', document.getElementById('name').value);
-  formData.append('dob', document.getElementById('dob').value);
-  formData.append('gender', document.getElementById('gender').value);
-  formData.append('designation', document.getElementById('designation').value);
-  formData.append('pfnumber', document.getElementById('pfnumber').value);
-  formData.append('station', document.getElementById('station').value);
-  formData.append('paylevel', document.getElementById('paylevel').value);
-  formData.append('email', document.getElementById('email').value);
-  formData.append('mobile', document.getElementById('mobile').value);
+  const params = new URLSearchParams();
+  params.append('action', 'register');
+  params.append('name', document.getElementById('name').value);
+  params.append('dob', document.getElementById('dob').value);
+  params.append('gender', document.getElementById('gender').value);
+  params.append('designation', document.getElementById('designation').value);
+  params.append('pfnumber', document.getElementById('pfnumber').value);
+  params.append('station', document.getElementById('station').value);
+  params.append('paylevel', document.getElementById('paylevel').value);
+  params.append('email', document.getElementById('email').value);
+  params.append('mobile', document.getElementById('mobile').value);
 
   fetch(scriptURL, {
     method: 'POST',
-    body: formData
+    body: params
   })
     .then(response => response.json())
     .then(result => {
+      console.log('Register result:', result);
       if (result.status === 'success') {
         alert(
-      'Registration saved successfully!\n\n' +
-      'Your User ID: ' + result.userId + '\n' +
-      'Password: ' + result.password + '\n' +
-      'Please note these credentials for login.'
-    );
+          'Registration saved successfully!\n\n' +
+          'Your User ID: ' + result.userId + '\n' +
+          'Password: ' + result.password + '\n' +
+          'Please note these credentials for login.'
+        );
         e.target.reset();
       } else {
         alert('Error while saving registration. Please try again.');
@@ -41,7 +42,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     });
 });
 
-// 3) Candidate Login – placeholder for future implementation
+// 3) Candidate Login – uses action=login on doGet
 document.getElementById('login-form').addEventListener('submit', function (e) {
   e.preventDefault();
   const userid = document.getElementById('userid').value;
@@ -55,7 +56,7 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     .then(result => {
       if (result.status === 'success') {
         alert('Login successful! (Next step: show application form/dashboard)');
-        // here you can later redirect or show another section
+        // later you will show the application form here
       } else {
         alert(result.message || 'Invalid User ID or Password');
       }
