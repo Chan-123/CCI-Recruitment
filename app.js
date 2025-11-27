@@ -69,3 +69,58 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
       alert('Network/server error during login.');
     });
 });
+document.getElementById('application-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const fileInput = document.getElementById('resume');
+  const file = fileInput.files[0];
+  if (!file) {
+    alert('Please upload resume PDF.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    const base64 = reader.result.split(',')[1];
+
+    const params = new URLSearchParams();
+    params.append('action', 'application');
+    params.append('userid', window.loggedInUserId || '');
+    params.append('name', document.getElementById('app-name').value);
+    params.append('designation', document.getElementById('app-designation').value);
+    params.append('pfnumber', document.getElementById('app-pfnumber').value);
+    params.append('station', document.getElementById('app-station').value);
+    params.append('levelgp', document.getElementById('app-levelgp').value);
+    params.append('dob', document.getElementById('app-dob').value);
+    params.append('dor', document.getElementById('app-dor').value);
+    params.append('doegrade', document.getElementById('app-doegrade').value);
+    params.append('education', document.getElementById('app-education').value);
+    params.append('expParcel', document.getElementById('exp-parcel').value);
+    params.append('expGoods', document.getElementById('exp-goods').value);
+    params.append('expBOPRS', document.getElementById('exp-boprs').value);
+    params.append('expSleeper', document.getElementById('exp-sleeper').value);
+    params.append('address', document.getElementById('app-address').value);
+    params.append('resumeName', file.name);
+    params.append('resumeBase64', base64);
+
+    fetch(scriptURL, { method: 'POST', body: params })
+      .then(res => res.json())
+      .then(result => {
+        console.log('Application result:', result);
+        if (result.status === 'success') {
+          alert(
+            'Application submitted successfully!\n\n' +
+            'Application Number: ' + result.applicationNumber
+          );
+          e.target.reset();
+        } else {
+          alert(result.message || 'Error submitting application.');
+        }
+      })
+      .catch(err => {
+        console.error('Application error:', err);
+        alert('Network/server error while submitting application.');
+      });
+  };
+  reader.readAsDataURL(file);
+});
+
