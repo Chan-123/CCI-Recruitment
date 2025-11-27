@@ -41,6 +41,44 @@
     </form>
   </section>
 
+  <section id="application-section" style="display:none;">
+  <h2>CCI Application Form</h2>
+  <form id="application-form">
+    <div class="two-column">
+      <input type="text" id="app-name" placeholder="Name" required />
+      <input type="text" id="app-designation" placeholder="Designation" required />
+    </div>
+    <div class="two-column">
+      <input type="text" id="app-pfnumber" placeholder="PF Number" required />
+      <input type="text" id="app-station" placeholder="Station / Office" required />
+    </div>
+    <div class="two-column">
+      <input type="text" id="app-levelgp" placeholder="Level / GP" required />
+      <input type="date" id="app-dob" placeholder="Date of Birth" required />
+    </div>
+    <div class="two-column">
+      <input type="date" id="app-dor" placeholder="Date of Retirement" required />
+      <input type="date" id="app-doegrade" placeholder="Date of Entry in Present Grade" required />
+    </div>
+    <textarea id="app-education" placeholder="Educational Qualification" required></textarea>
+    <label>Working Experience (in years)</label>
+    <div class="two-column">
+      <input type="number" id="exp-parcel" placeholder="Parcel" min="0" step="0.5" />
+      <input type="number" id="exp-goods" placeholder="Goods" min="0" step="0.5" />
+    </div>
+    <div class="two-column">
+      <input type="number" id="exp-boprs" placeholder="BO / PRS" min="0" step="0.5" />
+      <input type="number" id="exp-sleeper" placeholder="Sleeper / Squad / Station" min="0" step="0.5" />
+    </div>
+    <textarea id="app-address" placeholder="Residential Address" required></textarea>
+
+    <label>Upload Resume (PDF only)</label>
+    <input type="file" id="resume" accept="application/pdf" required />
+
+    <button type="submit">Submit Application</button>
+  </form>
+</section>
+
   <script src="app.js"></script>
 </body>
 </html>
