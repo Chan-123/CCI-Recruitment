@@ -56,6 +56,13 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     .then(result => {
       if (result.status === 'success') {
         window.loggedInUserId = userid;
+              // Prefill application form from registration data
+      document.getElementById('app-name').value        = result.name || '';
+      document.getElementById('app-designation').value = result.designation || '';
+      document.getElementById('app-pfnumber').value    = result.pfnumber || '';
+      document.getElementById('app-station').value     = result.station || '';
+      document.getElementById('app-levelgp').value     = result.paylevel || '';
+      document.getElementById('app-dob').value         = result.dob || '';
         alert('Login successful!');
 
         document.getElementById('login-section').style.display = 'none';
