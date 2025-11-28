@@ -67,3 +67,14 @@ form button:hover {
   box-sizing: border-box;
 }
 
+#application-section label {
+  display: block;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  color: #333;
+}
+#application-section .two-column > div {
+  flex: 1;
+}
+
